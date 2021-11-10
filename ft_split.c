@@ -5,8 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybensell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/09 09:15:36 by ybensell          #+#    #+#             */
+/*   Updated: 2021/11/10 08:49:00 by ybensell         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ybensell <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 08:58:54 by ybensell          #+#    #+#             */
-/*   Updated: 2021/11/08 12:12:46 by ybensell         ###   ########.fr       */
+/*   Updated: 2021/11/08 18:55:48 by ybensell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -53,6 +65,17 @@ static char	*fill_str(char *lil_str, const char *s, char c)
 	return (lil_str);
 }
 
+static void	*free_f(char **str, int i)
+{
+	while (i >= 0)
+	{
+		free(str + i);
+		i--;
+	}
+	free(str);
+	return (NULL);
+}
+
 char	**ft_split(char const *s, char c)
 {
 	char	**tab;
@@ -71,6 +94,8 @@ char	**ft_split(char const *s, char c)
 		while (*s == c && *s != '\0')
 			s++;
 		*(tab + i) = (char *)malloc(sizeof(char) * (word_size((s), c) + 1));
+		if (*(tab + i) == 0)
+			return (free_f(tab, i));
 		fill_str(*(tab + i), s, c);
 		while (*s != c)
 			s++;

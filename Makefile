@@ -6,7 +6,7 @@
 #    By: ybensell <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/05 09:37:29 by ybensell          #+#    #+#              #
-#    Updated: 2021/11/08 14:11:48 by ybensell         ###   ########.fr        #
+#    Updated: 2021/11/10 08:49:13 by ybensell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = libft.a
@@ -23,17 +23,26 @@ cc = gcc
 CFLAGS = -Wall -Wextra -Werror
 AR = ar rc
 RM = rm -f
+LIB = libft.h
+BONUS = ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c\
+		ft_lstlast_bonus.c ft_lstadd_back_bonus.c ft_lstdelone_bonus.c\
+		ft_lstclear_bonus.c ft_lstiter_bonus.c
+OBJ_BONUS = $(BONUS:.c=.o)
+
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) $(LIB)
 	$(AR) $(NAME) $(OBJ)
 
-.c.o: $(SRC)
-	$(cc) $(CFLAGS) -c $< -o $@
+bonus : $(OBJ_BONUS)
+	$(AR) $(NAME) $(OBJ_BONUS)	
+	
+%.o: %.c $(SRC) $(BONUS) 
+	$(cc) $(CFLAGS) -c $(SRC) $(BONUS) 
 
 clean:
-	$(RM) $(OBJ) 	
+	$(RM) $(OBJ) $(OBJ_BONUS)	
 
 fclean:	clean
 	$(RM) $(NAME)
